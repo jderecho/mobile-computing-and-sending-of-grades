@@ -12,7 +12,7 @@ public class Subject {
 
     public final static String ID = "id";
     public final static String NAME = "name";
-    public final static String INSTRUCTOR_ID = "name";
+    public final static String INSTRUCTOR_ID = "instructor_id";
 
     public int getId() {
         return id;
