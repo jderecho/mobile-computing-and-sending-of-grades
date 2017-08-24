@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.teambisu.mobilecomputingandsendingofgrades.StudentListActivity">
+    <TextView android:text="Section Students"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_student_section_title"
+        android:padding="10dp"
+        android:background="@color/color_ThemeBackground"/>
+
+    <ListView android:layout_below="@+id/tv_student_section_title"
+        android:id="@+id/lv_students"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+    <RelativeLayout android:id="@+id/rl_floatingbutton"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="#fff"
+            android:layout_toLeftOf="@+id/btn_edit"
+            app:srcCompat="@android:drawable/ic_input_add" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="#fff"
+            android:layout_toLeftOf="@+id/btn_delete"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="#fff"
+            app:srcCompat="@android:drawable/ic_delete"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+</RelativeLayout>
