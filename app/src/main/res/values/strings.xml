@@ -6,4 +6,6 @@
     <string name="title_activity_list_subject">ListSubjectActivity</string>
     <string name="title_activity_section_list">SectionListActivity</string>
     <string name="title_activity_student_list">StudentListActivity</string>
+    <string name="title_activity_add_subject">AddSubjectActivity</string>
+    <string name="title_activity_add_section">AddSectionActivity</string>
 </resources>

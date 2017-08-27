@@ -33,7 +33,15 @@
             android:label="@string/title_activity_section_list" />
         <activity
             android:name=".StudentListActivity"
-            android:label="@string/title_activity_student_list"></activity>
+            android:label="@string/title_activity_student_list" />
+        <activity
+            android:name=".subject.AddSubjectActivity"
+            android:label="@string/title_activity_add_subject" />
+        <activity
+            android:name=".section.AddSectionActivity"
+            android:label="@string/title_activity_add_section"></activity>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>

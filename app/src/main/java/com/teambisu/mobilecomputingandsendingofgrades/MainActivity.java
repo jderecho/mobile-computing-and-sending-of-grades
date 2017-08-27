@@ -10,21 +10,30 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import com.teambisu.mobilecomputingandsendingofgrades.helper.Session;
 
+public class MainActivity extends AppCompatActivity {
+    private Session session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        session = new Session(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+
+        if(session.getId() == 0) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, ListSubjectActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

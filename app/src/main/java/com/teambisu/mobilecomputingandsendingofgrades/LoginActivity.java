@@ -3,11 +3,13 @@ package com.teambisu.mobilecomputingandsendingofgrades;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.teambisu.mobilecomputingandsendingofgrades.helper.SQLiteHelper;
 import com.teambisu.mobilecomputingandsendingofgrades.model.Instructor;
@@ -19,6 +21,7 @@ public class LoginActivity extends Activity {
     EditText et_password;
     Button btn_login;
     TextView tv_redirect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,32 +34,19 @@ public class LoginActivity extends Activity {
         btn_login = (Button) findViewById(R.id.btn_login);
         tv_redirect = (TextView) findViewById(R.id.tv_redirect);
 
-        Instructor gran = new Instructor();
-        gran.setFirstname("Gran");
-        gran.setMiddlename("B");
-        gran.setLastname("Sabandal");
-        gran.setEmailaddress("jmanuel.derecho@gmail.com");
-        gran.setUsername("granix01");
-        gran.setPassword("123123");
-        Subject programming101 = new Subject();
-        programming101.setName("Programming 101");
-
-        gran.setSubjects(programming101);
-
-        if(mysqlite.insertInstructor(gran)){
-            Log.d("test","register succeed");
-        }else{
-            Log.d("test","register failed");
-        }
-
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, ListSubjectActivity.class);
-                startActivity(intent);
+                if (mysqlite.login(et_username.getText().toString(), et_password.getText().toString())) {
+                    Intent intent = new Intent(LoginActivity.this, ListSubjectActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(LoginActivity.this,"Login failed", Toast.LENGTH_LONG).show();
+                }
             }
         });
         tv_redirect.setClickable(true);
+
         tv_redirect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,12 +55,11 @@ public class LoginActivity extends Activity {
             }
         });
 
-        Log.d("test",mysqlite.getInstructors());
-        if(mysqlite.login("granix01","123123")){
-            Log.d("test","Login Successfully");
-        }else{
-            Log.d("test","Login Failed");
+        Log.d("test", mysqlite.getInstructors());
+        if (mysqlite.login("granix01", "123123")) {
+            Log.d("test", "Login Successfully");
+        } else {
+            Log.d("test", "Login Failed");
         }
     }
-
 }

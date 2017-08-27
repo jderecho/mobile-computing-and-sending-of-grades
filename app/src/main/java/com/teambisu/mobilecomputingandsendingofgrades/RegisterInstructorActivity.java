@@ -1,13 +1,21 @@
 package com.teambisu.mobilecomputingandsendingofgrades;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.teambisu.mobilecomputingandsendingofgrades.helper.SQLiteHelper;
+import com.teambisu.mobilecomputingandsendingofgrades.helper.Session;
+import com.teambisu.mobilecomputingandsendingofgrades.model.Instructor;
 
 public class RegisterInstructorActivity extends Activity {
+    private SQLiteHelper mysqlite;
+    private Session session;
     EditText et_firstname;
     EditText et_middlename;
     EditText et_lastname;
@@ -21,6 +29,9 @@ public class RegisterInstructorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_instructor);
 
+        mysqlite = new SQLiteHelper(this);
+        session = new Session(this);
+
         et_firstname = (EditText) findViewById(R.id.et_firstname);
         et_middlename = (EditText) findViewById(R.id.et_middlename);
         et_lastname = (EditText) findViewById(R.id.et_lastname);
@@ -33,16 +44,25 @@ public class RegisterInstructorActivity extends Activity {
         btn_register_instructor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String firstname = et_firstname.getText().toString();
-                String middlename = et_middlename.getText().toString();
-                String lastname = et_lastname.getText().toString();
-                String emailaddress = et_emailaddress.getText().toString();
-                String username = et_username.getText().toString();
-                String password = et_password.getText().toString();
-                String subjects = et_subjects.getText().toString();
+                Instructor instructor = new Instructor();
+                instructor.setFirstname(et_firstname.getText().toString());
+                instructor.setMiddlename(et_middlename.getText().toString());
+                instructor.setLastname(et_lastname.getText().toString());
+                instructor.setEmailaddress(et_emailaddress.getText().toString());
+                instructor.setUsername(et_username.getText().toString());
+                instructor.setPassword(et_password.getText().toString());
+//              instructor.setSubjects(et_subjects.getText().toString());
 
-
-                Log.d("test",subjects);
+                if(mysqlite.insertInstructor(instructor)){
+                    if(mysqlite.login(instructor.getUsername(),instructor.getPassword())){
+                        Intent intent = new Intent(RegisterInstructorActivity.this, ListSubjectActivity.class);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(RegisterInstructorActivity.this,"Something went wrong..", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(RegisterInstructorActivity.this,"Something went wrong..", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

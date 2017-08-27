@@ -1,15 +1,21 @@
 package com.teambisu.mobilecomputingandsendingofgrades;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.teambisu.mobilecomputingandsendingofgrades.model.Student;
+import com.teambisu.mobilecomputingandsendingofgrades.helper.SQLiteHelper;
+import com.teambisu.mobilecomputingandsendingofgrades.helper.Session;
+import com.teambisu.mobilecomputingandsendingofgrades.model.Section;
+import com.teambisu.mobilecomputingandsendingofgrades.model.Subject;
+import com.teambisu.mobilecomputingandsendingofgrades.section.AddSectionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,32 +23,110 @@ import java.util.List;
 public class SectionListActivity extends Activity {
     ListView lv_sections;
     TextView tv_section_title;
+    FloatingActionButton btn_add;
+    FloatingActionButton btn_edit;
+    FloatingActionButton btn_delete;
+    List<String> sections;
+    ArrayList<Section> mySections;
+    Session session;
+    SQLiteHelper mysqlite;
+
+    Subject currentSubject;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_section_list);
         tv_section_title = (TextView) findViewById(R.id.tv_section_title);
+        btn_add = (FloatingActionButton) findViewById(R.id.btn_add);
+        btn_edit = (FloatingActionButton) findViewById(R.id.btn_edit);
+        btn_delete = (FloatingActionButton) findViewById(R.id.btn_delete);
 
+        // init
         Intent intent = getIntent();
+        mySections = new ArrayList<>();
+        sections = new ArrayList<>();
+        currentSubject = new Subject();
 
-        tv_section_title.setText(intent.getStringExtra("subject").toString());
+        // value from intent
+        currentSubject.setName(intent.getStringExtra("subject"));
+        currentSubject.setId(intent.getIntExtra("subject_id", 0));
+
+        //set page title
+        tv_section_title.setText("SUBJECT: " + currentSubject.getName());
 
         lv_sections = (ListView) findViewById(R.id.lv_sections);
-        final List<String> sections = new ArrayList<String>();
-        sections.add("MWF 3:00-4:00");
-        sections.add("Thur-Fri 1:00-2:00");
 
+        // helpers
+        session = new Session(this);
+        mysqlite = new SQLiteHelper(this);
+
+        // list value
+        mySections =  mysqlite.getSections(session.getId(), currentSubject.getId());
+        for( Section section: mySections){
+            sections.add(section.getName());
+        }
+
+        // adapter
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.item_text,
-                sections );
+                sections);
         lv_sections.setAdapter(arrayAdapter);
+
+
+
         lv_sections.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(SectionListActivity.this, StudentListActivity.class);
-                intent.putExtra("section",sections.get(position));
+                intent.putExtra("section_id", sections.)
+                intent.putExtra("section", sections.get(position));
                 startActivity(intent);
+            }
+        });
+
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SectionListActivity.this, AddSectionActivity.class);
+                startActivity(intent);
+//                final MailService mailService = new MailService("takuashaminua@gmail.com","manuel123123");
+//
+//                String[] toArr = {"jmanuel.derecho@gmail.com","jan2.str8@gmail.com"};
+//                mailService.setTo(toArr);
+//                mailService.setFrom("jmanuel.derecho@gmail.com");
+//                mailService.setSubject("This is an email sent using my Mail JavaMail wrapper from an Android device.");
+//                mailService.setBody("Email body.");
+//
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            if(mailService.send()) {
+//                                Log.d("test", "email was sent");
+//                            } else {
+//                                Log.e("test", "email was not sent");
+//                            }
+//                        } catch (Exception e) {
+//                            Log.e("test", "Could not send email", e);
+//                        }
+//                    }
+//                }).start();
+            }
+        });
+        btn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("test", "pdf");
+//                PDFHelper pdfHelper = new PDFHelper(SectionListActivity.this);
+//                pdfHelper.createPDF();
+            }
+        });
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

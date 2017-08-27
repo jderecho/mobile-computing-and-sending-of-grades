@@ -5,10 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.teambisu.mobilecomputingandsendingofgrades.model.Instructor;
 import com.teambisu.mobilecomputingandsendingofgrades.model.Section;
+import com.teambisu.mobilecomputingandsendingofgrades.model.Student;
 import com.teambisu.mobilecomputingandsendingofgrades.model.Subject;
+
+import java.util.ArrayList;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "bisu_dotaboys.db";
@@ -18,9 +22,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String SUBJECT = "subject";
     public static final String SECTION = "section";
 
+    Session session;
+    Context context;
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.context = context;
+        session = new Session(context);
     }
 
 
@@ -41,12 +49,28 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 Subject.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Subject.NAME + " TEXT," +
                 Subject.INSTRUCTOR_ID + " INTEGER)");
+        db.execSQL("create table " + SECTION + "(" +
+                Section.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Section.NAME + " TEXT," +
+                Section.SUBJECT_ID + " INTEGER," +
+                Section.INSTRUCTOR_ID + " INTEGER)");
+        db.execSQL("create table " + STUDENT + "(" +
+                Student.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Student.FIRSTNAME + " TEXT," +
+                Student.MIDDLENAME + " TEXT," +
+                Student.LASTNAME + " TEXT," +
+                Student.EMAILADDRESS + " TEXT," +
+                Student.SUBJECT_ID + " INTEGER," +
+                Student.SECTION_ID + " INTEGER," +
+                Student.INSTRUCTOR_ID + " INTEGER)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + INSTRUCTOR);
         db.execSQL("DROP TABLE IF EXISTS " + SUBJECT);
+        db.execSQL("DROP TABLE IF EXISTS " + SECTION);
+        db.execSQL("DROP TABLE IF EXISTS " + STUDENT);
         onCreate(db);
     }
 
@@ -59,103 +83,216 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public boolean insertInstructor(Instructor instructor) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Instructor.FIRSTNAME , instructor.getFirstname());
-        contentValues.put(Instructor.MIDDLENAME , instructor.getMiddlename());
-        contentValues.put(Instructor.LASTNAME , instructor.getLastname());
-        contentValues.put(Instructor.EMAIL_ADDRESS , instructor.getEmailaddress());
-        contentValues.put(Instructor.USERNAME , instructor.getUsername());
-        contentValues.put(Instructor.PASSWORD , instructor.getPassword());
-        contentValues.put(Instructor.SUBJECTS , instructor.getSubjects().toString());
+        contentValues.put(Instructor.FIRSTNAME, instructor.getFirstname());
+        contentValues.put(Instructor.MIDDLENAME, instructor.getMiddlename());
+        contentValues.put(Instructor.LASTNAME, instructor.getLastname());
+        contentValues.put(Instructor.EMAIL_ADDRESS, instructor.getEmailaddress());
+        contentValues.put(Instructor.USERNAME, instructor.getUsername());
+        contentValues.put(Instructor.PASSWORD, instructor.getPassword());
+//        contentValues.put(Instructor.SUBJECTS , instructor.getSubjects().toString());
 
         long result = db.insert(INSTRUCTOR, null, contentValues);
 
-        if(result == -1){
+        if (result == -1) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
-    public boolean login(String username, String password){
+
+    public boolean login(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         String FIND_USERNAME = String.format("SELECT * FROM %s WHERE %s = '%s'", INSTRUCTOR, Instructor.USERNAME, username);
 
         Cursor cursor = db.rawQuery(FIND_USERNAME, null);
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 String pass = cursor.getString(cursor.getColumnIndex(Instructor.PASSWORD));
-                return pass == password;
-            }while (cursor.moveToNext());
-        }else{
+                if (pass.equals(password)) {
+                    session.setId(cursor.getInt(cursor.getColumnIndex(Instructor.ID)));
+                    return true;
+                }
+            } while (cursor.moveToNext());
+            return false;
+        } else {
             return false;
         }
     }
-    public String getInstructors(){
+
+    public String getInstructors() {
         SQLiteDatabase db = this.getReadableDatabase();
         String GET_ALL = String.format("SELECT * FROM %s", INSTRUCTOR);
 
         Cursor cursor = db.rawQuery(GET_ALL, null);
         String pass = "";
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
-                 pass += cursor.getString(cursor.getColumnIndex(Instructor.FIRSTNAME )) + "\n ";
+                pass += cursor.getString(cursor.getColumnIndex(Instructor.FIRSTNAME)) + "\n ";
 
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
             return pass;
-        }else{
+        } else {
             return "Empty";
         }
     }
 
     /*
     *
-    *  SUBJECT TABLE :: This table is used for saving subject the INSTRUCTORS handle.
+    *  SUBJECT TABLE :: This table is used for saving subjects the INSTRUCTORS handle.
     *  a subject can have many classes/section
     *
     */
 
-    public boolean insertSubject(Instructor instructor, Subject subject){
+    public boolean insertSubject(Subject subject) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Subject.NAME , subject.getName());
-        contentValues.put(Subject.INSTRUCTOR_ID, instructor.getId());
+        contentValues.put(Subject.NAME, subject.getName());
+        contentValues.put(Subject.INSTRUCTOR_ID, subject.getInstructor_id());
 
         long result = db.insert(SUBJECT, null, contentValues);
 
-        if(result == -1){
+        if (result == -1) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
-    public String getSubjects(){
+
+    public ArrayList<Subject> getSubjects(int instructors_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String GET_ALL = String.format("SELECT * FROM %s", SUBJECT);
+        String GET_ALL = String.format("SELECT * FROM %s where instructor_id = %s", SUBJECT, Integer.toString(instructors_id));
 
+        Log.d("test", GET_ALL);
         Cursor cursor = db.rawQuery(GET_ALL, null);
-        String pass = "";
-        if(cursor.moveToFirst()){
+        ArrayList<Subject> arrayList = new ArrayList<Subject>();
+        if (cursor.moveToFirst()) {
             do {
-                pass += cursor.getString(cursor.getColumnIndex(Instructor.FIRSTNAME )) + "\n ";
-
-            }while (cursor.moveToNext());
-            return pass;
-        }else{
-            return "Empty";
+                Subject subject = new Subject();
+                subject.setId(cursor.getInt(cursor.getColumnIndex(Subject.ID)));
+                subject.setName(cursor.getString(cursor.getColumnIndex(Subject.NAME)));
+                subject.setInstructor_id(cursor.getInt(cursor.getColumnIndex(Subject.INSTRUCTOR_ID)));
+                arrayList.add(subject);
+            } while (cursor.moveToNext());
         }
+        return arrayList;
     }
+
     public boolean editSubject(Subject subject) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Subject.NAME, subject.getName());
-        int result = db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(subject.getId()) } );
+        int result = db.update(SUBJECT, contentValues, Subject.ID + " = ? ", new String[]{Integer.toString(subject.getId())});
 
-        if(result == -1){
+        if (result == -1) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
+
+    public boolean deleteSubject(Subject subject) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(SUBJECT, Subject.ID + " = ? ", new String[]{Integer.toString(subject.getId())});
+
+        if (result == -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /*
+     *
+     * Section/Class Model
+     *
+     *
+     */
+
+    public boolean insertSection(Section section) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Section.NAME, section.getName());
+        contentValues.put(Section.SUBJECT_ID, section.getSubject_id());
+        contentValues.put(Section.INSTRUCTOR_ID, session.getId());
+
+        long result = db.insert(SECTION, null, contentValues);
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public ArrayList<Section> getSections(int instructors_id, int subject_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String GET_ALL = String.format("SELECT * FROM %s where %s = %s && %s = %s", SECTION,
+                Section.INSTRUCTOR_ID, Integer.toString(instructors_id),
+                Section.SUBJECT_ID, Integer.toString((subject_id)));
+        Log.d("test", GET_ALL);
+        Cursor cursor = db.rawQuery(GET_ALL, null);
+        ArrayList<Section> arrayList = new ArrayList<Section>();
+        if (cursor.moveToFirst()) {
+            do {
+                Section section = new Section();
+                section.setId(cursor.getInt(cursor.getColumnIndex(Section.ID)));
+                section.setName(cursor.getString(cursor.getColumnIndex(Section.NAME)));
+                section.setInstructor_id(cursor.getInt(cursor.getColumnIndex(Section.INSTRUCTOR_ID)));
+                section.setSubject_id(cursor.getInt(cursor.getColumnIndex(Section.SUBJECT_ID)));
+
+                arrayList.add(section);
+            } while (cursor.moveToNext());
+        }
+        return arrayList;
+    }
+
+    /*
+    *
+    * Students Model
+    *
+     */
+
+    public boolean insertStudent(Student student) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Student.FIRSTNAME, student.getFirstname());
+        contentValues.put(Student.MIDDLENAME, student.getMiddlename());
+        contentValues.put(Student.LASTNAME, student.getLastname());
+        contentValues.put(Student.EMAILADDRESS, student.getEmailaddress());
+        contentValues.put(Student.SUBJECT_ID, student.getSubject_id());
+        contentValues.put(Student.SECTION_ID, student.getSection_id());
+        contentValues.put(Student.INSTRUCTOR_ID, session.getId());
+
+        long result = db.insert(STUDENT, null, contentValues);
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public ArrayList<String> getStudents(int instructors_id, int section_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String GET_ALL = String.format("SELECT * FROM %s where %s = %s && %s = %s", STUDENT,
+                Student.INSTRUCTOR_ID, Integer.toString(instructors_id),
+                Student.SECTION_ID, Integer.toString((section_id)));
+
+        Log.d("test", GET_ALL);
+
+        Cursor cursor = db.rawQuery(GET_ALL, null);
+        ArrayList<String> arrayList = new ArrayList<String>();
+        if (cursor.moveToFirst()) {
+            do {
+                arrayList.add(cursor.getString(cursor.getColumnIndex(Student.FIRSTNAME + " "
+                        + Student.MIDDLENAME + " " + Student.LASTNAME)));
+            } while (cursor.moveToNext());
+        }
+        return arrayList;
+    }
+
 //    public boolean insertData(String lastname, String firstname){
 //        SQLiteDatabase db = this.getWritableDatabase();
 //        ContentValues contentValues = new ContentValues();
