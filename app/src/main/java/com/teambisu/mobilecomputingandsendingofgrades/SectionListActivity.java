@@ -32,6 +32,7 @@ public class SectionListActivity extends Activity {
     SQLiteHelper mysqlite;
 
     Subject currentSubject;
+    ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class SectionListActivity extends Activity {
         }
 
         // adapter
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        arrayAdapter = new ArrayAdapter<String>(
                 this,
                 R.layout.item_text,
                 sections);
@@ -76,20 +77,13 @@ public class SectionListActivity extends Activity {
 
 
 
-        lv_sections.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(SectionListActivity.this, StudentListActivity.class);
-                intent.putExtra("section_id", sections.)
-                intent.putExtra("section", sections.get(position));
-                startActivity(intent);
-            }
-        });
-
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(SectionListActivity.this, AddSectionActivity.class);
+                intent.putExtra(Subject.ID, currentSubject.getId());
+                intent.putExtra(Subject.NAME, currentSubject.getName());
                 startActivity(intent);
 //                final MailService mailService = new MailService("takuashaminua@gmail.com","manuel123123");
 //
@@ -129,8 +123,28 @@ public class SectionListActivity extends Activity {
 
             }
         });
-
-        arrayAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        sections.clear();
+        mySections =  mysqlite.getSections(session.getId(), currentSubject.getId());
+        Log.d("test","length: " + mySections.size());
+        for( Section section: mySections){
+            sections.add(section.getName());
+        }
+        arrayAdapter.notifyDataSetChanged();
+        lv_sections.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SectionListActivity.this, StudentListActivity.class);
+                intent.putExtra("section_id", mySections.get(position).getId());
+                intent.putExtra("subject_id", mySections.get(position).getSubject_id());
+                intent.putExtra("section", sections.get(position));
+                startActivity(intent);
+            }
+        });
+    }
 }

@@ -54,12 +54,5 @@ public class LoginActivity extends Activity {
                 startActivity(intent);
             }
         });
-
-        Log.d("test", mysqlite.getInstructors());
-        if (mysqlite.login("granix01", "123123")) {
-            Log.d("test", "Login Successfully");
-        } else {
-            Log.d("test", "Login Failed");
-        }
     }
 }

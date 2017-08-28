@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_rl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container_rl"
+    android:background="@color/color_listBackground"
     tools:context="com.teambisu.mobilecomputingandsendingofgrades.ListSubjectActivity">
 
     <TextView
@@ -12,39 +13,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_ThemeBackground"
-        android:padding="10dp"
+        android:padding="15dp"
         android:text="Your Handled Subjects" />
 
     <ListView
         android:id="@+id/lv_subjects"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tv_subject_title">
+        android:layout_below="@+id/tv_subject_title"
+        android:choiceMode="singleChoice"
+        android:focusable="true"
+        android:listSelector="@drawable/pressed"></ListView>
 
-    </ListView>
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_floatingbutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:gravity="right">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/button_margin"
             android:layout_toLeftOf="@+id/btn_edit"
-            app:backgroundTint="#fff"
+            app:backgroundTint="#8bf7a9"
             app:srcCompat="@android:drawable/ic_input_add" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
+            android:layout_marginTop="@dimen/button_margin"
             android:layout_toLeftOf="@+id/btn_delete"
-            app:backgroundTint="#fff"
+            app:backgroundTint="#fdd3b3"
             app:srcCompat="@android:drawable/ic_menu_edit" />
 
         <android.support.design.widget.FloatingActionButton
@@ -53,8 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="#fff"
-            app:srcCompat="@android:drawable/ic_delete" />
-    </RelativeLayout>
+            android:layout_margin="@dimen/button_margin"
+            android:backgroundTint="#fc7070"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
 </RelativeLayout>

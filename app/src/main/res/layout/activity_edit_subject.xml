@@ -13,7 +13,14 @@
         android:layout_height="wrap_content"
         android:background="@color/color_ThemeBackground"
         android:padding="15dp"
-        android:text="Add Subject" />
+        android:textStyle="bold"
+        android:text="Edit Subject" />
+    <TextView android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_margin="5dp"
+        android:text="Subject's name:"/>
 
     <EditText
         android:id="@+id/et_subject"

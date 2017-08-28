@@ -8,11 +8,11 @@
     <TextView android:text="Section Students"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_student_section_title"
+        android:id="@+id/tv_student_title"
         android:padding="10dp"
         android:background="@color/color_ThemeBackground"/>
 
-    <ListView android:layout_below="@+id/tv_student_section_title"
+    <ListView android:layout_below="@+id/tv_student_title"
         android:id="@+id/lv_students"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

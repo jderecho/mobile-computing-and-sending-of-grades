@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.teambisu.mobilecomputingandsendingofgrades">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +15,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,9 +43,13 @@
             android:label="@string/title_activity_add_subject" />
         <activity
             android:name=".section.AddSectionActivity"
-            android:label="@string/title_activity_add_section"></activity>
+            android:label="@string/title_activity_add_section" />
+        <activity
+            android:name=".student.AddStudentActivity"
+            android:label="@string/title_activity_add_student" />
+        <activity
+            android:name=".subject.EditSubjectActivity"
+            android:label="@string/title_activity_edit_subject"></activity>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>

@@ -49,11 +49,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 Subject.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Subject.NAME + " TEXT," +
                 Subject.INSTRUCTOR_ID + " INTEGER)");
+
         db.execSQL("create table " + SECTION + "(" +
                 Section.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Section.NAME + " TEXT," +
                 Section.SUBJECT_ID + " INTEGER," +
                 Section.INSTRUCTOR_ID + " INTEGER)");
+
         db.execSQL("create table " + STUDENT + "(" +
                 Student.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Student.FIRSTNAME + " TEXT," +
@@ -92,20 +94,22 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 //        contentValues.put(Instructor.SUBJECTS , instructor.getSubjects().toString());
 
         long result = db.insert(INSTRUCTOR, null, contentValues);
-
         if (result == -1) {
             return false;
         } else {
             return true;
         }
     }
-
+    public void logout(){
+        session = new Session(context);
+        session.setId(0);
+        session.setusername("");
+    }
     public boolean login(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         String FIND_USERNAME = String.format("SELECT * FROM %s WHERE %s = '%s'", INSTRUCTOR, Instructor.USERNAME, username);
 
         Cursor cursor = db.rawQuery(FIND_USERNAME, null);
-
         if (cursor.moveToFirst()) {
             do {
                 String pass = cursor.getString(cursor.getColumnIndex(Instructor.PASSWORD));
@@ -166,6 +170,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         Log.d("test", GET_ALL);
         Cursor cursor = db.rawQuery(GET_ALL, null);
         ArrayList<Subject> arrayList = new ArrayList<Subject>();
+
         if (cursor.moveToFirst()) {
             do {
                 Subject subject = new Subject();
@@ -178,13 +183,15 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public boolean editSubject(Subject subject) {
+    public boolean updateSubject(Subject subject) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(Subject.NAME, subject.getName());
-        int result = db.update(SUBJECT, contentValues, Subject.ID + " = ? ", new String[]{Integer.toString(subject.getId())});
 
-        if (result == -1) {
+        int result = db.update(SUBJECT, contentValues, Subject.ID + " = ?", new String[]{Integer.toString(subject.getId())});
+        Log.d("test","result: " + result);
+
+        if (result == 1) {
             return true;
         } else {
             return false;
@@ -227,11 +234,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public ArrayList<Section> getSections(int instructors_id, int subject_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String GET_ALL = String.format("SELECT * FROM %s where %s = %s && %s = %s", SECTION,
-                Section.INSTRUCTOR_ID, Integer.toString(instructors_id),
-                Section.SUBJECT_ID, Integer.toString((subject_id)));
+        String GET_ALL = String.format("SELECT * FROM %s where %s = %s", SECTION, Section.SUBJECT_ID, Integer.toString(subject_id));
+
+//        String GET_ALL = String.format("SELECT * FROM %s ", SECTION);
         Log.d("test", GET_ALL);
         Cursor cursor = db.rawQuery(GET_ALL, null);
+//        Log.d("test", );
         ArrayList<Section> arrayList = new ArrayList<Section>();
         if (cursor.moveToFirst()) {
             do {
@@ -240,13 +248,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 section.setName(cursor.getString(cursor.getColumnIndex(Section.NAME)));
                 section.setInstructor_id(cursor.getInt(cursor.getColumnIndex(Section.INSTRUCTOR_ID)));
                 section.setSubject_id(cursor.getInt(cursor.getColumnIndex(Section.SUBJECT_ID)));
-
+                Log.d("test","section: " + cursor.getInt(cursor.getColumnIndex(Section.SUBJECT_ID)));
                 arrayList.add(section);
             } while (cursor.moveToNext());
         }
         return arrayList;
     }
-
     /*
     *
     * Students Model
@@ -274,20 +281,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<String> getStudents(int instructors_id, int section_id) {
+    public ArrayList<Student> getStudents(int instructors_id, int section_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String GET_ALL = String.format("SELECT * FROM %s where %s = %s && %s = %s", STUDENT,
+        String GET_ALL = String.format("SELECT * FROM %s where %s = %s AND %s = %s", STUDENT,
                 Student.INSTRUCTOR_ID, Integer.toString(instructors_id),
                 Student.SECTION_ID, Integer.toString((section_id)));
 
         Log.d("test", GET_ALL);
 
         Cursor cursor = db.rawQuery(GET_ALL, null);
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<Student> arrayList = new ArrayList<Student>();
         if (cursor.moveToFirst()) {
             do {
-                arrayList.add(cursor.getString(cursor.getColumnIndex(Student.FIRSTNAME + " "
-                        + Student.MIDDLENAME + " " + Student.LASTNAME)));
+                Student student = new Student();
+                student.setId(cursor.getInt(cursor.getColumnIndex(Student.ID)));
+                student.setSection_id(cursor.getInt(cursor.getColumnIndex(Student.SECTION_ID)));
+                student.setFirstname(cursor.getString(cursor.getColumnIndex(Student.FIRSTNAME)));
+                student.setMiddlename(cursor.getString(cursor.getColumnIndex(Student.MIDDLENAME)));
+                student.setLastname(cursor.getString(cursor.getColumnIndex(Student.LASTNAME)));
+                arrayList.add(student);
             } while (cursor.moveToNext());
         }
         return arrayList;

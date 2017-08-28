@@ -8,4 +8,6 @@
     <string name="title_activity_student_list">StudentListActivity</string>
     <string name="title_activity_add_subject">AddSubjectActivity</string>
     <string name="title_activity_add_section">AddSectionActivity</string>
+    <string name="title_activity_add_student">AddStudentActivity</string>
+    <string name="title_activity_edit_subject">EditSubjectActivity</string>
 </resources>
