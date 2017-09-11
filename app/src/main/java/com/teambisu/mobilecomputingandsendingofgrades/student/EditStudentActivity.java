@@ -13,7 +13,7 @@ import com.teambisu.mobilecomputingandsendingofgrades.helper.SQLiteHelper;
 import com.teambisu.mobilecomputingandsendingofgrades.helper.Session;
 import com.teambisu.mobilecomputingandsendingofgrades.model.Student;
 
-public class AddStudentActivity extends Activity {
+public class EditStudentActivity extends Activity {
 
     private SQLiteHelper mysqlite;
     private Session session;
@@ -39,10 +39,16 @@ public class AddStudentActivity extends Activity {
         et_emailaddress = (EditText) findViewById(R.id.et_emailaddress);
         btn_save = (Button) findViewById(R.id.btn_save);
 
+        et_firstname.setText(intent.getStringExtra(Student.FIRSTNAME));
+        et_middlename.setText(intent.getStringExtra(Student.MIDDLENAME));
+        et_lastname.setText(intent.getStringExtra(Student.LASTNAME));
+        et_emailaddress.setText(intent.getStringExtra(Student.EMAILADDRESS));
+
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Student student = new Student();
+                student.setId(intent.getIntExtra(Student.ID, 0));
                 student.setFirstname(et_firstname.getText().toString());
                 student.setMiddlename(et_middlename.getText().toString());
                 student.setLastname(et_lastname.getText().toString());
@@ -51,11 +57,11 @@ public class AddStudentActivity extends Activity {
                 student.setSection_id(intent.getIntExtra(Student.SECTION_ID, 0));
                 student.setSubject_id(intent.getIntExtra(Student.SUBJECT_ID, 0));
 
-                if (mysqlite.insertStudent(student)) {
-                    Toast.makeText(AddStudentActivity.this, "Student added..", Toast.LENGTH_LONG).show();
+                if (mysqlite.updateStudent(student)) {
+                    Toast.makeText(EditStudentActivity.this, "Student saved..", Toast.LENGTH_LONG).show();
                     finish();
                 } else {
-                    Toast.makeText(AddStudentActivity.this, "Something went wrong..", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditStudentActivity.this, "Something went wrong..", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -71,5 +77,4 @@ public class AddStudentActivity extends Activity {
 
         }
     }
-
 }

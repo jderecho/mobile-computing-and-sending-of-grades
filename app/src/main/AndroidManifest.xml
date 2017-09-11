@@ -4,12 +4,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -30,7 +31,7 @@
             android:name=".RegisterInstructorActivity"
             android:label="@string/title_activity_register_instructor" />
         <activity
-            android:name=".ListSubjectActivity"
+            android:name=".SubjectListActivity"
             android:label="@string/title_activity_list_subject" />
         <activity
             android:name=".SectionListActivity"
@@ -49,7 +50,28 @@
             android:label="@string/title_activity_add_student" />
         <activity
             android:name=".subject.EditSubjectActivity"
-            android:label="@string/title_activity_edit_subject"></activity>
+            android:label="@string/title_activity_edit_subject" />
+        <activity
+            android:name=".section.EditSectionActivity"
+            android:label="@string/title_activity_edit_section" />
+        <activity
+            android:name=".student.EditStudentActivity"
+            android:label="@string/title_activity_edit_student" />
+        <activity
+            android:name=".GradesActivity"
+            android:label="@string/title_activity_grades" />
+        <activity
+            android:name=".grade.AddGradeActivity"
+            android:label="@string/title_activity_add_grade" />
+        <activity
+            android:name=".grade.GradingPeriodActivity"
+            android:label="@string/title_activity_grading_period" />
+        <activity
+            android:name=".grade.AddScoreActivity"
+            android:label="@string/title_activity_add_score" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"></activity>
     </application>
 
 </manifest>

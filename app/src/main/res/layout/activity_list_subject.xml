@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_listBackground"
-    tools:context="com.teambisu.mobilecomputingandsendingofgrades.ListSubjectActivity">
+    tools:context="com.teambisu.mobilecomputingandsendingofgrades.SubjectListActivity">
 
     <TextView
         android:id="@+id/tv_subject_title"
@@ -25,6 +25,18 @@
         android:focusable="true"
         android:listSelector="@drawable/pressed"></ListView>
 
+    <TextView
+        android:id="@+id/tv_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:padding="50dp"
+        android:text="There is no subject yet. Tap the plus button to add."
+        android:textColor="@color/black"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/rl_floatingbutton"
         android:layout_width="match_parent"
@@ -39,7 +51,6 @@
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/button_margin"
             android:layout_toLeftOf="@+id/btn_edit"
-            app:backgroundTint="#8bf7a9"
             app:srcCompat="@android:drawable/ic_input_add" />
 
         <android.support.design.widget.FloatingActionButton
@@ -48,7 +59,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_margin"
             android:layout_toLeftOf="@+id/btn_delete"
-            app:backgroundTint="#fdd3b3"
             app:srcCompat="@android:drawable/ic_menu_edit" />
 
         <android.support.design.widget.FloatingActionButton
@@ -58,7 +68,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/button_margin"
-            android:backgroundTint="#fc7070"
             app:srcCompat="@android:drawable/ic_menu_delete" />
     </LinearLayout>
 </RelativeLayout>

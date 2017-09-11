@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="com.teambisu.mobilecomputingandsendingofgrades.GradesActivity">
+
+        <LinearLayout
+            android:id="@+id/ll_gradecontainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/btn_add"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/btn_add"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_subject_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_ThemeBackground"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="Student's Grade"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:text="Name: "
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_student_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="26dp"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:text="Subject: "
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:text="Status: "
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_white_bordered"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:text="Prelim"
+                        android:textColor="@color/black" />
+
+
+                    <Button
+                        android:id="@+id/btn_prelim_grade"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/button_background"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="5dp"
+                        android:text="Add Prelim Scores"
+                        android:textColor="@color/white"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_white_bordered"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:text="Midterm"
+                        android:textColor="@color/black" />
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/tv_midterm_grade"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_marginBottom="15dp"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--android:layout_marginRight="15dp"-->
+                    <!--android:layout_marginTop="0dp"-->
+                    <!--android:background="@color/lightGray"-->
+                    <!--android:gravity="center"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--android:paddingLeft="40dp"-->
+                    <!--android:paddingRight="40dp"-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="15dp"-->
+                    <!--android:textStyle="bold" />-->
+
+                    <Button
+                        android:id="@+id/btn_midterm_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/button_background"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="5dp"
+                        android:text="Add Midterm Scores"
+                        android:textColor="@color/white"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_white_bordered"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:text="Prefinal"
+                        android:textColor="@color/black" />
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/tv_prefinal_grade"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_marginBottom="15dp"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--android:layout_marginRight="15dp"-->
+                    <!--android:layout_marginTop="0dp"-->
+                    <!--android:background="@color/lightGray"-->
+                    <!--android:gravity="center"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--android:paddingLeft="40dp"-->
+                    <!--android:paddingRight="40dp"-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="15dp"-->
+                    <!--android:textStyle="bold" />-->
+                    <Button
+                        android:id="@+id/btn_prefinal_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/button_background"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="5dp"
+                        android:text="Add Prefinal Scores"
+                        android:textColor="@color/white"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_white_bordered"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="10dp"
+                        android:text="Final"
+                        android:textColor="@color/black" />
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/tv_final_grade"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_marginBottom="15dp"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--android:layout_marginRight="15dp"-->
+                    <!--android:layout_marginTop="0dp"-->
+                    <!--android:background="@color/lightGray"-->
+                    <!--android:gravity="center"-->
+                    <!--android:paddingBottom="10dp"-->
+                    <!--android:paddingLeft="40dp"-->
+                    <!--android:paddingRight="40dp"-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:textSize="15dp"-->
+                    <!--android:textStyle="bold" />-->
+
+                    <Button
+                        android:id="@+id/btn_final_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/button_background"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="5dp"
+                        android:text="Add Final Scores"
+                        android:textColor="@color/white"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button android:id="@+id/btn_compute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_background"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Compute Grades"
+                android:textSize="10dp" />
+
+
+            <TextView
+                android:id="@+id/tv_warning"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="This student don't have grades yet.\n Compute now."
+                android:textColor="@color/hintAccent" />
+
+            <ProgressBar
+                android:id="@+id/pb_load_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/ll_computed_grades_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Prelim:  "
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_prelim_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/lightGray"
+                        android:gravity="left"
+                        android:text="1.1"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Midterm:  "
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_midterm_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/lightGray"
+                        android:gravity="left"
+                        android:text="1.1"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Prefinal:  "
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_prefinal_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/lightGray"
+                        android:gravity="left"
+                        android:text="1.1"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Final:  "
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_final_grade"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/lightGray"
+                        android:gravity="left"
+                        android:text="1.1"
+                        android:textColor="@color/black"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Midterm GWA: "
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_midterm_gwa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Final GWA: "
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_final_gwa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="30dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Overall GWA: "
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tv_gwa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_send_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:background="@drawable/button_background"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Send Grades"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/btn_add"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_margin="@dimen/button_margin"-->
+            <!--android:layout_toLeftOf="@+id/btn_edit"-->
+            <!--app:backgroundTint="#8bf7a9"-->
+            <!--app:srcCompat="@android:drawable/ic_input_add" />-->
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/btn_edit"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginTop="@dimen/button_margin"-->
+            <!--android:layout_toLeftOf="@+id/btn_delete"-->
+            <!--android:visibility="gone"-->
+            <!--app:backgroundTint="#fdd3b3"-->
+            <!--app:srcCompat="@android:drawable/ic_menu_edit" />-->
+
+    </RelativeLayout>
+</ScrollView>

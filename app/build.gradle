@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -27,8 +28,10 @@ dependencies {
     compile files('libs/activation.jar')
     compile files('libs/mail.jar')
     compile files('libs/additionnal.jar')
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile files('libs/itextg-5.5.10.jar')
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
-    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:support-vector-drawable:25.1.1'
     testCompile 'junit:junit:4.12'
 }

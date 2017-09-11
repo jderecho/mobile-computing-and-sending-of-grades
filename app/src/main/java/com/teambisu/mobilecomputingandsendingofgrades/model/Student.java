@@ -18,6 +18,7 @@ public class Student {
     public static String SUBJECT_ID = "subject_id";
     public static String SECTION_ID = "section_id";
     public static String INSTRUCTOR_ID = "instructor_id";
+    public static String FULLNAME = "fullname";
 
     public int getId() {
         return id;
@@ -81,5 +82,9 @@ public class Student {
 
     public void setInstructor_id(int instructor_id) {
         this.instructor_id = instructor_id;
+    }
+
+    public String getFullName(){
+        return getFirstname() + " " + getMiddlename() + " " + getLastname();
     }
 }

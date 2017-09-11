@@ -5,33 +5,36 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.teambisu.mobilecomputingandsendingofgrades.subject.AddSubjectActivity">
+    tools:context="com.teambisu.mobilecomputingandsendingofgrades.section.EditSectionActivity">
 
     <TextView
-        android:id="@+id/tv_subject_title"
+        android:id="@+id/tv_section_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_ThemeBackground"
         android:padding="15dp"
-        android:textStyle="bold"
-        android:text="Edit Subject" />
-    <TextView android:textColor="@color/black"
+        android:text="Edit Course Year and Section"
+        android:textStyle="bold" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
         android:layout_margin="5dp"
-        android:text="Subject's name:"/>
+        android:paddingTop="10dp"
+        android:text="Section:"
+        android:textColor="@color/black" />
+
     <EditText
-        android:id="@+id/et_subject"
+        android:id="@+id/et_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/edittext_background"
-        android:hint="Name of the Subject"
-        android:maxLines="1"
+        android:hint="Course Year and Section"
         android:nextFocusForward="@+id/btn_save"
         android:padding="10dp"
         android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@color/black"
         android:textColorHint="@color/hintAccent"
         android:textCursorDrawable="@color/textAccent" />
@@ -46,5 +49,4 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:text="Save" />
-
 </LinearLayout>

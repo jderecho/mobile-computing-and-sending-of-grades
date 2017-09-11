@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_projects"
+        android:icon="@drawable/presentation"
+        android:title="@string/title_projects" />
+
+    <item
+        android:id="@+id/navigation_major_exams"
+        android:icon="@drawable/exam_a_plus"
+        android:title="@string/title_major_exams" />
+
+    <item
+        android:id="@+id/navigation_evaluation"
+        android:icon="@drawable/evaluation"
+        android:title="@string/title_evaluation" />
+
+</menu>

@@ -3,7 +3,6 @@ package com.teambisu.mobilecomputingandsendingofgrades;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.design.widget.FloatingActionButton;
@@ -14,11 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teambisu.mobilecomputingandsendingofgrades.helper.SQLiteHelper;
 import com.teambisu.mobilecomputingandsendingofgrades.helper.Session;
-import com.teambisu.mobilecomputingandsendingofgrades.model.Instructor;
 import com.teambisu.mobilecomputingandsendingofgrades.model.Subject;
 import com.teambisu.mobilecomputingandsendingofgrades.subject.AddSubjectActivity;
 import com.teambisu.mobilecomputingandsendingofgrades.subject.EditSubjectActivity;
@@ -26,7 +25,7 @@ import com.teambisu.mobilecomputingandsendingofgrades.subject.EditSubjectActivit
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListSubjectActivity extends Activity {
+public class SubjectListActivity extends Activity {
     ListView lv_subjects;
     FloatingActionButton btn_add;
     FloatingActionButton btn_edit;
@@ -37,6 +36,7 @@ public class ListSubjectActivity extends Activity {
     ArrayList<Subject> mySubjects;
     Session session;
     SQLiteHelper mysqlite;
+    TextView warning;
 
     Subject currentSubject;
     boolean isListSelected = false;
@@ -50,6 +50,9 @@ public class ListSubjectActivity extends Activity {
         btn_edit = (FloatingActionButton) findViewById(R.id.btn_edit);
         btn_delete = (FloatingActionButton) findViewById(R.id.btn_delete);
         container_rl = (RelativeLayout) findViewById(R.id.container_rl);
+        warning = (TextView) findViewById(R.id.tv_warning);
+        warning.setText("There is no Subject yet. Tap the plus button to add.");
+        warning.setVisibility(View.GONE);
 
         session = new Session(this);
         mysqlite = new SQLiteHelper(this);
@@ -74,15 +77,15 @@ public class ListSubjectActivity extends Activity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListSubjectActivity.this, AddSubjectActivity.class);
+                Intent intent = new Intent(SubjectListActivity.this, AddSubjectActivity.class);
                 startActivity(intent);
             }
         });
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("test","" + currentSubject.getId());
-                Intent intent = new Intent(ListSubjectActivity.this, EditSubjectActivity.class);
+                Log.d("test", "" + currentSubject.getId());
+                Intent intent = new Intent(SubjectListActivity.this, EditSubjectActivity.class);
                 intent.putExtra(Subject.ID, currentSubject.getId());
                 intent.putExtra(Subject.NAME, currentSubject.getName());
                 startActivity(intent);
@@ -91,15 +94,26 @@ public class ListSubjectActivity extends Activity {
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("test","" + currentSubject.getId());
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(ListSubjectActivity.this);
-                builder1.setMessage("Write your message here.");
+                Log.d("test", "" + currentSubject.getId());
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(SubjectListActivity.this);
+                builder1.setMessage("Are you sure you want to delete " + currentSubject.getName() + " ?");
                 builder1.setCancelable(true);
-
                 builder1.setPositiveButton(
                         "Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                if (mysqlite.deleteSubject(currentSubject)) {
+                                    subjects.clear();
+
+                                    mySubjects = mysqlite.getSubjects(session.getId());
+                                    for (Subject sub : mySubjects) {
+                                        subjects.add(sub.getName());
+                                    }
+                                    arrayAdapter.notifyDataSetChanged();
+                                    Toast.makeText(SubjectListActivity.this, "Subject deleted and all of it's sections and students.", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(SubjectListActivity.this, "Something went wrong.", Toast.LENGTH_LONG).show();
+                                }
                                 dialog.cancel();
                             }
                         });
@@ -130,12 +144,18 @@ public class ListSubjectActivity extends Activity {
         for (Subject sub : mySubjects) {
             subjects.add(sub.getName());
         }
+        if (subjects.isEmpty()) {
+            warning.setVisibility(View.VISIBLE);
+        } else {
+            warning.setVisibility(View.GONE);
+        }
+
         lv_subjects.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ListSubjectActivity.this, SectionListActivity.class);
-                intent.putExtra("subject", subjects.get(position));
-                intent.putExtra("subject_id", mySubjects.get(position).getId());
+                Intent intent = new Intent(SubjectListActivity.this, SectionListActivity.class);
+                intent.putExtra(Subject.NAME, subjects.get(position));
+                intent.putExtra(Subject.ID, mySubjects.get(position).getId());
                 Log.d("test", "position " + position);
                 Log.d("test", "id " + id);
                 startActivity(intent);
@@ -155,19 +175,32 @@ public class ListSubjectActivity extends Activity {
         });
 
         arrayAdapter.notifyDataSetChanged();
+        if (!mySubjects.isEmpty()) {
+            Snackbar.make(container_rl, " Long press on a subject to edit or delete.", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void onBackPressed() {
-        if(isListSelected){
+        if (isListSelected) {
             isListSelected = false;
             lv_subjects.clearChoices();
             arrayAdapter.notifyDataSetChanged();
 
             btn_edit.setVisibility(View.GONE);
             btn_delete.setVisibility(View.GONE);
-        }else{
+        } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            mysqlite.close();
+        } catch (Exception e) {
+
         }
     }
 }

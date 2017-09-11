@@ -3,7 +3,6 @@ package com.teambisu.mobilecomputingandsendingofgrades;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +23,7 @@ public class RegisterInstructorActivity extends Activity {
     EditText et_password;
     EditText et_subjects;
     Button btn_register_instructor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,22 +51,26 @@ public class RegisterInstructorActivity extends Activity {
                 instructor.setEmailaddress(et_emailaddress.getText().toString());
                 instructor.setUsername(et_username.getText().toString());
                 instructor.setPassword(et_password.getText().toString());
-//              instructor.setSubjects(et_subjects.getText().toString());
 
-                if(mysqlite.insertInstructor(instructor)){
-                    if(mysqlite.login(instructor.getUsername(),instructor.getPassword())){
-                        Intent intent = new Intent(RegisterInstructorActivity.this, ListSubjectActivity.class);
-                        startActivity(intent);
-                    }else{
-                        Toast.makeText(RegisterInstructorActivity.this,"Something went wrong..", Toast.LENGTH_LONG).show();
-                    }
-                }else{
-                    Toast.makeText(RegisterInstructorActivity.this,"Something went wrong..", Toast.LENGTH_LONG).show();
+                if (mysqlite.insertInstructor(instructor)) {
+                    Toast.makeText(RegisterInstructorActivity.this, "Account successfully registered..", Toast.LENGTH_LONG).show();
+                    finish();
+                } else {
+                    Toast.makeText(RegisterInstructorActivity.this, "Something went wrong..", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            mysqlite.close();
+        } catch (Exception e) {
+
+        }
+    }
 
 }

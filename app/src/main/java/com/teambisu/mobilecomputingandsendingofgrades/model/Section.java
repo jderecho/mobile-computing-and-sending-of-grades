@@ -7,6 +7,10 @@ package com.teambisu.mobilecomputingandsendingofgrades.model;
 public class Section {
     private int id;
     private String name;
+    private String course;
+    private String year;
+    private String section;
+
     private int subject_id;
     private int instructor_id;
     public static String ID = "id";
@@ -44,5 +48,29 @@ public class Section {
 
     public void setInstructor_id(int instructor_id) {
         this.instructor_id = instructor_id;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 }

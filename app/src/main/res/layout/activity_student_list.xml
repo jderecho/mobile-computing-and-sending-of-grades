@@ -4,48 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_listBackground"
     tools:context="com.teambisu.mobilecomputingandsendingofgrades.StudentListActivity">
-    <TextView android:text="Section Students"
+
+    <TextView
+        android:id="@+id/tv_student_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_student_title"
-        android:padding="10dp"
-        android:background="@color/color_ThemeBackground"/>
+        android:background="@color/color_ThemeBackground"
+        android:padding="15dp"
+        android:text="Section Students" />
 
-    <ListView android:layout_below="@+id/tv_student_title"
+    <ListView
         android:id="@+id/lv_students"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_student_title"
+        android:choiceMode="singleChoice"
+        android:focusable="true"
+        android:listSelector="@drawable/pressed">
 
     </ListView>
-    <RelativeLayout android:id="@+id/rl_floatingbutton"
-        android:layout_alignParentBottom="true"
+
+    <TextView android:id="@+id/tv_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:padding="50dp"
+        android:text="There is no subject yet. Tap the plus button to add."
+        android:textColor="@color/black"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/rl_floatingbutton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="right">
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="#fff"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/button_margin"
             android:layout_toLeftOf="@+id/btn_edit"
             app:srcCompat="@android:drawable/ic_input_add" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="#fff"
+            android:layout_marginTop="@dimen/button_margin"
             android:layout_toLeftOf="@+id/btn_delete"
             app:srcCompat="@android:drawable/ic_menu_edit" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="#fff"
-            app:srcCompat="@android:drawable/ic_delete"
-            android:layout_alignParentRight="true" />
-    </RelativeLayout>
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/button_margin"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
 </RelativeLayout>

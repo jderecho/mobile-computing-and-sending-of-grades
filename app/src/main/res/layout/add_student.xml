@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <EditText android:id="@+id/et_firstname"
-        android:hint="First Name"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <EditText android:id="@+id/et_middlename"
-        android:hint="Middle Name"
+    <EditText
+        android:id="@+id/et_firstname"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText android:id="@+id/et_lastname"
+        android:layout_height="wrap_content"
+        android:hint="First Name" />
+
+    <EditText
+        android:id="@+id/et_middlename"
         android:layout_width="match_parent"
-        android:hint="Last Name"
-        android:layout_height="wrap_content" />
-    <EditText android:id="@+id/et_email"
+        android:layout_height="wrap_content"
+        android:hint="Middle Name" />
+
+    <EditText
+        android:id="@+id/et_lastname"
         android:layout_width="match_parent"
-        android:hint="Email Address"
-        android:layout_height="wrap_content" />
-    <EditText android:id="@+id/et_subject"
-        android:hint="Subject"
+        android:layout_height="wrap_content"
+        android:hint="Last Name" />
+
+    <EditText
+        android:id="@+id/et_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button android:text="Create"
+        android:layout_height="wrap_content"
+        android:hint="Email Address" />
+
+    <EditText
+        android:id="@+id/et_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Subject" />
+
+    <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Create" />
 </LinearLayout>

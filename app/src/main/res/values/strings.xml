@@ -10,4 +10,34 @@
     <string name="title_activity_add_section">AddSectionActivity</string>
     <string name="title_activity_add_student">AddStudentActivity</string>
     <string name="title_activity_edit_subject">EditSubjectActivity</string>
+    <string name="title_activity_edit_section">EditSectionActivity</string>
+    <string name="title_activity_edit_student">EditStudentActivity</string>
+    <string name="title_activity_grades">GradesActivity</string>
+    <string name="title_activity_add_grade">AddGradeActivity</string>
+    <string name="title_activity_grading_period">GradingPeriodActivity</string>
+    <string name="title_projects">Projects</string>
+    <string name="title_major_exams">Major Exams</string>
+    <string name="title_evaluation">Evaluation</string>
+    <string name="title_activity_add_score">AddScoreActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string-array name="courses">
+        <item>BSCS</item>
+        <item>BSERM-CRM</item>
+        <item>BEED</item>
+        <item>BSED</item>
+        <item>BHRST</item>
+    </string-array>
+    <string-array name="year">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="section">
+        <item>A</item>
+        <item>B</item>
+        <item>C</item>
+        <item>D</item>
+    </string-array>
 </resources>

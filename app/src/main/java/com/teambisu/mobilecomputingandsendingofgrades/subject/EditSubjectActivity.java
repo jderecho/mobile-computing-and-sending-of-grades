@@ -20,6 +20,7 @@ public class EditSubjectActivity extends Activity {
     private Session session;
     private SQLiteHelper mysqlite;
     private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +44,14 @@ public class EditSubjectActivity extends Activity {
                 subject.setName(et_subject.getText().toString());
                 subject.setInstructor_id(session.getId());
 
-                if(et_subject.getText().toString().isEmpty()) {
+                if (et_subject.getText().toString().isEmpty()) {
                     Toast.makeText(EditSubjectActivity.this, "Subject name is required.", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(mysqlite.updateSubject(subject)){
+                if (mysqlite.updateSubject(subject)) {
                     Toast.makeText(EditSubjectActivity.this, " saved!", Toast.LENGTH_SHORT).show();
                     finish();
-                }else{
+                } else {
                     Toast.makeText(EditSubjectActivity.this, " error!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -58,4 +59,13 @@ public class EditSubjectActivity extends Activity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            mysqlite.close();
+        } catch (Exception e) {
+
+        }
+    }
 }

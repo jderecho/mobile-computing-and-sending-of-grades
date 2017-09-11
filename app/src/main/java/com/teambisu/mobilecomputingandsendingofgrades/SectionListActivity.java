@@ -1,6 +1,8 @@
 package com.teambisu.mobilecomputingandsendingofgrades;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,14 +10,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.teambisu.mobilecomputingandsendingofgrades.helper.SQLiteHelper;
 import com.teambisu.mobilecomputingandsendingofgrades.helper.Session;
 import com.teambisu.mobilecomputingandsendingofgrades.model.Section;
 import com.teambisu.mobilecomputingandsendingofgrades.model.Subject;
 import com.teambisu.mobilecomputingandsendingofgrades.section.AddSectionActivity;
+import com.teambisu.mobilecomputingandsendingofgrades.section.EditSectionActivity;
+import com.teambisu.mobilecomputingandsendingofgrades.subject.EditSubjectActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +36,12 @@ public class SectionListActivity extends Activity {
     ArrayList<Section> mySections;
     Session session;
     SQLiteHelper mysqlite;
+    TextView warning;
 
     Subject currentSubject;
+    Section currentSection;
     ArrayAdapter<String> arrayAdapter;
+    boolean isListSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +52,22 @@ public class SectionListActivity extends Activity {
         btn_edit = (FloatingActionButton) findViewById(R.id.btn_edit);
         btn_delete = (FloatingActionButton) findViewById(R.id.btn_delete);
 
+        warning = (TextView) findViewById(R.id.tv_warning);
+        warning.setText("There is no Section yet. Tap the plus button to add.");
+        warning.setVisibility(View.GONE);
         // init
         Intent intent = getIntent();
         mySections = new ArrayList<>();
         sections = new ArrayList<>();
         currentSubject = new Subject();
+        currentSection = new Section();
 
         // value from intent
-        currentSubject.setName(intent.getStringExtra("subject"));
-        currentSubject.setId(intent.getIntExtra("subject_id", 0));
+        currentSubject.setName(intent.getStringExtra(Subject.NAME));
+        currentSubject.setId(intent.getIntExtra(Subject.ID, 0));
 
         //set page title
-        tv_section_title.setText("SUBJECT: " + currentSubject.getName());
+        tv_section_title.setText("Sections of " + currentSubject.getName());
 
         lv_sections = (ListView) findViewById(R.id.lv_sections);
 
@@ -63,8 +76,8 @@ public class SectionListActivity extends Activity {
         mysqlite = new SQLiteHelper(this);
 
         // list value
-        mySections =  mysqlite.getSections(session.getId(), currentSubject.getId());
-        for( Section section: mySections){
+        mySections = mysqlite.getSections(session.getId(), currentSubject.getId());
+        for (Section section : mySections) {
             sections.add(section.getName());
         }
 
@@ -75,52 +88,62 @@ public class SectionListActivity extends Activity {
                 sections);
         lv_sections.setAdapter(arrayAdapter);
 
-
-
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(SectionListActivity.this, AddSectionActivity.class);
-                intent.putExtra(Subject.ID, currentSubject.getId());
-                intent.putExtra(Subject.NAME, currentSubject.getName());
+                intent.putExtra(Section.SUBJECT_ID, currentSubject.getId());
+                intent.putExtra(Section.NAME, currentSubject.getName());
                 startActivity(intent);
-//                final MailService mailService = new MailService("takuashaminua@gmail.com","manuel123123");
-//
-//                String[] toArr = {"jmanuel.derecho@gmail.com","jan2.str8@gmail.com"};
-//                mailService.setTo(toArr);
-//                mailService.setFrom("jmanuel.derecho@gmail.com");
-//                mailService.setSubject("This is an email sent using my Mail JavaMail wrapper from an Android device.");
-//                mailService.setBody("Email body.");
-//
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            if(mailService.send()) {
-//                                Log.d("test", "email was sent");
-//                            } else {
-//                                Log.e("test", "email was not sent");
-//                            }
-//                        } catch (Exception e) {
-//                            Log.e("test", "Could not send email", e);
-//                        }
-//                    }
-//                }).start();
             }
         });
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("test", "pdf");
-//                PDFHelper pdfHelper = new PDFHelper(SectionListActivity.this);
-//                pdfHelper.createPDF();
+                Intent intent = new Intent(SectionListActivity.this, EditSectionActivity.class);
+                intent.putExtra(Section.SUBJECT_ID, currentSection.getSubject_id());
+                intent.putExtra(Section.ID, currentSection.getId());
+                intent.putExtra(Section.NAME, currentSection.getName());
+                startActivity(intent);
             }
         });
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(SectionListActivity.this);
+                builder1.setMessage("Are you sure you want to delete " + currentSection.getName() + " ?");
+                builder1.setCancelable(true);
 
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (mysqlite.deleteSection(currentSection)) {
+                                    sections.clear();
+                                    mySections = mysqlite.getSections(session.getId(), currentSubject.getId());
+                                    for (Section section : mySections) {
+                                        sections.add(section.getName());
+                                    }
+                                    arrayAdapter.notifyDataSetChanged();
+                                    Toast.makeText(SectionListActivity.this, "Section deleted and all of it's students.", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(SectionListActivity.this, "Something went wrong.", Toast.LENGTH_LONG).show();
+                                }
+                                dialog.cancel();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
             }
         });
     }
@@ -128,23 +151,70 @@ public class SectionListActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        btn_edit.setVisibility(View.GONE);
+        btn_delete.setVisibility(View.GONE);
 
         sections.clear();
-        mySections =  mysqlite.getSections(session.getId(), currentSubject.getId());
-        Log.d("test","length: " + mySections.size());
-        for( Section section: mySections){
+        mySections = mysqlite.getSections(session.getId(), currentSubject.getId());
+        Log.d("test", "length: " + mySections.size());
+        for (Section section : mySections) {
             sections.add(section.getName());
         }
+        if (sections.isEmpty()) {
+            warning.setVisibility(View.VISIBLE);
+        } else {
+            warning.setVisibility(View.GONE);
+        }
+
         arrayAdapter.notifyDataSetChanged();
         lv_sections.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(SectionListActivity.this, StudentListActivity.class);
-                intent.putExtra("section_id", mySections.get(position).getId());
-                intent.putExtra("subject_id", mySections.get(position).getSubject_id());
-                intent.putExtra("section", sections.get(position));
+                intent.putExtra(Section.ID, mySections.get(position).getId());
+                intent.putExtra(Section.SUBJECT_ID, mySections.get(position).getSubject_id());
+                intent.putExtra(Section.NAME, sections.get(position));
+                intent.putExtra("subject-" + Subject.ID, currentSubject.getId());
+                intent.putExtra("subject-" + Subject.NAME, currentSubject.getName());
                 startActivity(intent);
             }
         });
+        lv_sections.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                currentSection = mySections.get(position);
+                view.setSelected(true);
+                view.setPressed(true);
+                isListSelected = true;
+                btn_edit.setVisibility(View.VISIBLE);
+                btn_delete.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isListSelected) {
+            isListSelected = false;
+            lv_sections.clearChoices();
+            arrayAdapter.notifyDataSetChanged();
+
+            btn_edit.setVisibility(View.GONE);
+            btn_delete.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            mysqlite.close();
+        } catch (Exception e) {
+
+        }
     }
 }

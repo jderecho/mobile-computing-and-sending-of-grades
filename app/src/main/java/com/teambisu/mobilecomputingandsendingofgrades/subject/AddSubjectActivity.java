@@ -35,10 +35,10 @@ public class AddSubjectActivity extends Activity {
                 Subject subject = new Subject();
                 subject.setName(et_subject.getText().toString());
                 subject.setInstructor_id(session.getId());
-                if(mysqlite.insertSubject(subject)){
+                if (mysqlite.insertSubject(subject)) {
                     Toast.makeText(AddSubjectActivity.this, " saved!", Toast.LENGTH_SHORT).show();
                     finish();
-                }else{
+                } else {
                     Toast.makeText(AddSubjectActivity.this, " error!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -46,4 +46,13 @@ public class AddSubjectActivity extends Activity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            mysqlite.close();
+        } catch (Exception e) {
+
+        }
+    }
 }

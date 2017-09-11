@@ -3,25 +3,116 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.teambisu.mobilecomputingandsendingofgrades.section.AddSectionActivity">
+    tools:context="com.teambisu.mobilecomputingandsendingofgrades.section.EditSectionActivity">
+
     <TextView
         android:id="@+id/tv_section_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:background="@color/color_ThemeBackground"
-        android:padding="10dp"
-        android:text="Add Section" />
+        android:padding="15dp"
+        android:text="Add Course Year and Section"
+        android:textStyle="bold" />
 
-    <EditText android:id="@+id/et_section"
+    <EditText
+        android:visibility="gone"
+        android:id="@+id/et_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Section/Class Name" />
+        android:layout_margin="5dp"
+        android:background="@drawable/edittext_background"
+        android:hint="Course Year and Section"
+        android:maxLines="1"
+        android:nextFocusForward="@+id/btn_save"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textColorHint="@color/hintAccent"
+        android:textCursorDrawable="@color/textAccent" />
 
-    <Button android:id="@+id/btn_save"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:paddingTop="10dp"
+                android:text="Couse:"
+                android:textColor="@color/black" />
+
+            <Spinner
+                android:id="@+id/spn_course"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Spinner>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:paddingTop="10dp"
+                android:text="Year:"
+                android:textColor="@color/black" />
+
+            <Spinner
+                android:id="@+id/spn_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Spinner>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:paddingTop="10dp"
+                android:text="Section:"
+                android:textColor="@color/black" />
+
+            <Spinner
+                android:id="@+id/spn_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></Spinner>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Add Or Update" />
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_background"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:text="Save" />
 </LinearLayout>
