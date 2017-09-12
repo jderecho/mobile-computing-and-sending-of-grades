@@ -32,6 +32,11 @@ public class AddSubjectActivity extends Activity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (et_subject.getText().toString().isEmpty()) {
+                    et_subject.setError("Input required field");
+                    et_subject.requestFocus();
+                    return;
+                }
                 Subject subject = new Subject();
                 subject.setName(et_subject.getText().toString());
                 subject.setInstructor_id(session.getId());

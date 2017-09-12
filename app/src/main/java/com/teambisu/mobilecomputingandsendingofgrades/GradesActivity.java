@@ -363,7 +363,7 @@ public class GradesActivity extends Activity {
 
     private void createPdf(Student student) throws FileNotFoundException, DocumentException {
 
-        File docsFolder = new File(Environment.getExternalStorageDirectory() + "/Documents/bisu/" + student.getId() + "/");
+        File docsFolder = new File(Environment.getExternalStorageDirectory() + "/Documents/bisu/" + student.getId() + currentStudent.getLastname() + currentStudent.getFirstname() + "/");
         if (!docsFolder.exists()) {
             docsFolder.mkdirs();
             Log.i("test", "Created a new directory for PDF");

@@ -71,7 +71,10 @@
             android:label="@string/title_activity_add_score" />
         <activity
             android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"></activity>
+            android:label="@string/title_activity_main2" />
+        <activity
+            android:name=".grade.EditScoreActivity"
+            android:label="@string/title_activity_edit_score"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,7 @@
 package com.teambisu.mobilecomputingandsendingofgrades;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +22,7 @@ public class RegisterInstructorActivity extends Activity {
     EditText et_password;
     EditText et_subjects;
     Button btn_register_instructor;
+    EditText et_password2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +39,49 @@ public class RegisterInstructorActivity extends Activity {
         et_username = (EditText) findViewById(R.id.et_username);
         et_password = (EditText) findViewById(R.id.et_password);
         et_subjects = (EditText) findViewById(R.id.et_subjects);
+        et_password2 = (EditText) findViewById(R.id.et_password2);
         btn_register_instructor = (Button) findViewById(R.id.btn_register_instructor);
 
         btn_register_instructor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (et_firstname.getText().toString().isEmpty()) {
+                    et_firstname.setError("Input required field");
+                    et_firstname.requestFocus();
+                    return;
+                }
+                if (et_lastname.getText().toString().isEmpty()) {
+                    et_lastname.setError("Input required field");
+                    et_lastname.requestFocus();
+                    return;
+                }
+                if (et_emailaddress.getText().toString().isEmpty()) {
+                    et_emailaddress.setError("Input required field");
+                    et_emailaddress.requestFocus();
+                    return;
+                }
+
+                if (!Session.isValidEmailAddress(et_emailaddress.getText().toString())) {
+                    et_emailaddress.setError("Please input a valid email");
+                    et_emailaddress.requestFocus();
+                    return;
+                }
+                if (et_username.getText().toString().isEmpty()) {
+                    et_username.setError("Input required field");
+                    et_username.requestFocus();
+                    return;
+                }
+                if (et_password.getText().toString().isEmpty()) {
+                    et_password.setError("Input required field");
+                    et_password.requestFocus();
+                    return;
+                }
+                if (!et_password.getText().toString().equals(et_password2.getText().toString())) {
+                    et_password2.requestFocus();
+                    Toast.makeText(RegisterInstructorActivity.this, "Password don't match", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Instructor instructor = new Instructor();
                 instructor.setFirstname(et_firstname.getText().toString());
                 instructor.setMiddlename(et_middlename.getText().toString());

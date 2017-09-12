@@ -33,6 +33,17 @@ public class LoginActivity extends Activity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (et_username.getText().toString().isEmpty()) {
+                    et_username.setError("Input required field");
+                    et_username.requestFocus();
+                    return;
+                }
+                if (et_password.getText().toString().isEmpty()) {
+                    et_password.setError("Input required field");
+                    et_password.requestFocus();
+                    return;
+                }
                 if (mysqlite.login(et_username.getText().toString(), et_password.getText().toString())) {
                     Intent intent = new Intent(LoginActivity.this, Main2Activity.class);
                     startActivity(intent);

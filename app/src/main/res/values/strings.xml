@@ -40,4 +40,5 @@
         <item>C</item>
         <item>D</item>
     </string-array>
+    <string name="title_activity_edit_score">EditScoreActivity</string>
 </resources>

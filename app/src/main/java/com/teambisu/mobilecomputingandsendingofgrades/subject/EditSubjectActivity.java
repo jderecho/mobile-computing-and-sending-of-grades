@@ -39,6 +39,7 @@ public class EditSubjectActivity extends Activity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Subject subject = new Subject();
                 subject.setId(intent.getIntExtra(Subject.ID, 0));
                 subject.setName(et_subject.getText().toString());

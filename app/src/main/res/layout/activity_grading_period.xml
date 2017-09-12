@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context="com.teambisu.mobilecomputingandsendingofgrades.grade.GradingPeriodActivity">
 
@@ -19,7 +19,7 @@
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btn_add"
+            android:layout_above="@+id/ll_buttons"
             android:layout_weight="1"
             android:background="@color/white"
             android:orientation="vertical">
@@ -60,15 +60,15 @@
                     android:id="@+id/tv_score_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
                     android:paddingBottom="@dimen/activity_vertical_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingTop="@dimen/activity_vertical_margin"
                     android:text="Total score 200/210"
-                    android:textColor="@color/textAccent"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:textColor="@color/textAccent" />
             </RelativeLayout>
 
             <ListView
@@ -81,15 +81,40 @@
 
         </LinearLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btn_add"
-            android:layout_width="wrap_content"
+        <LinearLayout android:id="@+id/ll_buttons"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/button_margin"
-            android:layout_toLeftOf="@+id/btn_edit"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/button_margin"
+                android:layout_toLeftOf="@+id/btn_edit"
+                app:srcCompat="@android:drawable/ic_input_add" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_edit"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/button_margin"
+                android:layout_toLeftOf="@+id/btn_edit"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_delete"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/button_margin"
+                android:layout_toLeftOf="@+id/btn_edit"
+                app:srcCompat="@android:drawable/ic_menu_delete" />
+        </LinearLayout>
 
     </RelativeLayout>
 

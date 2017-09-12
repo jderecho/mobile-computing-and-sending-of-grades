@@ -377,7 +377,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
-    public  Student getStudent(int student_id) {
+    public Student getStudent(int student_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String GET_ALL = String.format("SELECT * FROM %s where %s = %s ", STUDENT,
                 Student.ID, Integer.toString(student_id));
@@ -478,29 +478,31 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
         return grade;
     }
-/*
-*
-* Scores
-*
-* */
-public boolean insertScore(Score score) {
-    SQLiteDatabase db = this.getWritableDatabase();
-    ContentValues contentValues = new ContentValues();
-    contentValues.put(Score.DATE, score.getDate());
-    contentValues.put(Score.TEST_NAME, score.getTest_name());
-    contentValues.put(Score.SCORE, score.getScore());
-    contentValues.put(Score.MAXIMUM_SCORE, score.getMaximum_score());
-    contentValues.put(Score.STUDENT_ID, score.getStudent_id());
-    contentValues.put(Score.GRADING_PERIOD, score.getGrading_period());
-    contentValues.put(Score.GRADING_CATEGORY, score.getGrading_category());
 
-    long result = db.insert(SCORE, null, contentValues);
-    if (result == -1) {
-        return false;
-    } else {
-        return true;
+    /*
+    *
+    * Scores
+    *
+    * */
+    public boolean insertScore(Score score) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Score.DATE, score.getDate());
+        contentValues.put(Score.TEST_NAME, score.getTest_name());
+        contentValues.put(Score.SCORE, score.getScore());
+        contentValues.put(Score.MAXIMUM_SCORE, score.getMaximum_score());
+        contentValues.put(Score.STUDENT_ID, score.getStudent_id());
+        contentValues.put(Score.GRADING_PERIOD, score.getGrading_period());
+        contentValues.put(Score.GRADING_CATEGORY, score.getGrading_category());
+
+        long result = db.insert(SCORE, null, contentValues);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
-}
+
     public ArrayList<Score> getScore(int student_id, int grading_period, int grading_category) {
         ArrayList<Score> scores = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -526,6 +528,7 @@ public boolean insertScore(Score score) {
         }
         return scores;
     }
+
     public ArrayList<Score> getGradingPeriodScores(int student_id, int grading_period) {
         ArrayList<Score> scores = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -551,6 +554,34 @@ public boolean insertScore(Score score) {
         }
         return scores;
     }
+
+    public boolean updateScore(Score score) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Score.SCORE, score.getScore());
+        contentValues.put(Score.MAXIMUM_SCORE, score.getMaximum_score());
+        contentValues.put(Score.DATE, score.getDate());
+
+        long result = db.update(SCORE, contentValues, Score.ID + " = ?", new String[]{Integer.toString(score.getId())});
+
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteScore(Score score) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(SCORE, Score.ID + " = ? ", new String[]{Integer.toString(score.getId())});
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 //    public boolean insertData(String lastname, String firstname){
 //        SQLiteDatabase db = this.getWritableDatabase();
 //        ContentValues contentValues = new ContentValues();

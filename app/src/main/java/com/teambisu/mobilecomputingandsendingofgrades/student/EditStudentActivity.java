@@ -47,6 +47,33 @@ public class EditStudentActivity extends Activity {
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (et_firstname.getText().toString().isEmpty()) {
+                    et_firstname.setError("Input required field");
+                    et_firstname.requestFocus();
+                    return;
+                }
+                if (et_lastname.getText().toString().isEmpty()) {
+                    et_lastname.setError("Input required field");
+                    et_lastname.requestFocus();
+                    return;
+                }
+
+                if (et_emailaddress.getText().toString().isEmpty()) {
+                    et_emailaddress.setError("Input required field");
+                    et_emailaddress.requestFocus();
+                    return;
+                }
+                if (et_emailaddress.getText().toString().isEmpty()) {
+                    et_emailaddress.setError("Input required field");
+                    et_emailaddress.requestFocus();
+                    return;
+                }
+                if (!Session.isValidEmailAddress(et_emailaddress.getText().toString())) {
+                    et_emailaddress.setError("Please input a valid email");
+                    et_emailaddress.requestFocus();
+                    return;
+                }
+
                 Student student = new Student();
                 student.setId(intent.getIntExtra(Student.ID, 0));
                 student.setFirstname(et_firstname.getText().toString());

@@ -1,11 +1,9 @@
 package com.teambisu.mobilecomputingandsendingofgrades.grade;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
-import android.support.annotation.IntegerRes;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,20 +16,19 @@ import com.teambisu.mobilecomputingandsendingofgrades.model.Score;
 
 import java.util.Date;
 
-public class AddScoreActivity extends Activity {
-
+public class EditScoreActivity extends Activity {
     Intent intent;
     SQLiteHelper mysqlite;
     Session session;
     EditText et_date, et_score_name, et_score, et_total;
     Button btn_save;
 
-    int student_id = 0, grading_period = 0, grading_category = 0;
+    Score currentScore = new Score();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_score);
+        setContentView(R.layout.activity_edit_score);
 
         intent = getIntent();
         session = new Session(this);
@@ -47,17 +44,22 @@ public class AddScoreActivity extends Activity {
         btn_save = (Button) findViewById(R.id.btn_save);
 
         et_score.requestFocus();
-        student_id = intent.getIntExtra(Score.STUDENT_ID, 0);
-        grading_period = intent.getIntExtra(Score.GRADING_PERIOD, 0);
-        grading_category = intent.getIntExtra(Score.GRADING_CATEGORY, 0);
+
+        currentScore.setId(intent.getIntExtra(Score.ID, 0));
+        currentScore.setDate(intent.getStringExtra(Score.DATE));
+        currentScore.setTest_name(intent.getStringExtra(Score.TEST_NAME));
+        currentScore.setScore(intent.getIntExtra(Score.SCORE, 0));
+        currentScore.setMaximum_score(intent.getIntExtra(Score.MAXIMUM_SCORE, 0));
+
+        et_date.setText(currentScore.getDate());
+        et_score.setText(currentScore.getScore() + "");
+        et_total.setText(currentScore.getMaximum_score() + "");
 
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (et_score.getText().toString().isEmpty()) {
-                    Toast.makeText(AddScoreActivity.this, "Please input required fields", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditScoreActivity.this, "Please input required fields", Toast.LENGTH_LONG).show();
                     et_score.setError("Please input required field");
                     return;
                 }
@@ -69,7 +71,7 @@ public class AddScoreActivity extends Activity {
                     Integer.parseInt(et_score.getText().toString());
 
                 } catch (Exception e) {
-                    Toast.makeText(AddScoreActivity.this, "Please input required fields", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditScoreActivity.this, "Please input required fields", Toast.LENGTH_LONG).show();
 
                     et_score.setError("Please input valid number");
                     return;
@@ -78,27 +80,25 @@ public class AddScoreActivity extends Activity {
                     Integer.parseInt(et_total.getText().toString());
 
                 } catch (Exception e) {
-                    Toast.makeText(AddScoreActivity.this, "Please input required fields", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditScoreActivity.this, "Please input required fields", Toast.LENGTH_LONG).show();
 
                     et_total.setError("Please input valid number");
                     return;
                 }
+
                 Score score = new Score();
+                score.setId(currentScore.getId());
                 score.setDate(et_date.getText().toString());
                 score.setTest_name(et_score_name.getText().toString());
                 score.setScore(Integer.parseInt(et_score.getText().toString()));
                 score.setMaximum_score(Integer.parseInt(et_total.getText().toString()));
                 score.setDate(et_date.getText().toString());
-                score.setGrading_category(grading_category);
-                score.setGrading_period(grading_period);
-                score.setStudent_id(student_id);
 
-                Log.d("test", "score " + score.getScore());
-                if (mysqlite.insertScore(score)) {
-                    Toast.makeText(AddScoreActivity.this, "Successfully saved.", Toast.LENGTH_LONG).show();
+                if (mysqlite.updateScore(score)) {
+                    Toast.makeText(EditScoreActivity.this, "Successfully saved.", Toast.LENGTH_LONG).show();
                     finish();
                 } else {
-                    Toast.makeText(AddScoreActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditScoreActivity.this, "Error", Toast.LENGTH_LONG).show();
                 }
             }
         });
