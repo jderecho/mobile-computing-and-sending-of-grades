@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -62,9 +62,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal"
+                android:padding="10dp"
                 android:weightSum="3">
 
                 <TextView
@@ -86,12 +86,13 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout android:visibility="gone"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal"
                 android:padding="10dp"
+                android:visibility="gone"
                 android:weightSum="3">
 
                 <TextView
@@ -110,7 +111,6 @@
                     android:layout_weight="1"
                     android:textColor="@color/black" />
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -330,7 +330,8 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <Button android:id="@+id/btn_compute"
+            <Button
+                android:id="@+id/btn_compute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -341,6 +342,18 @@
                 android:text="Compute Grades"
                 android:textSize="10dp" />
 
+            <Button
+                android:id="@+id/btn_preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_background"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="View PDF file"
+                android:textSize="10dp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_warning"
@@ -561,6 +574,7 @@
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
+
             <Button
                 android:id="@+id/btn_send_email"
                 android:layout_width="wrap_content"
@@ -577,27 +591,27 @@
 
 
         <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:id="@+id/btn_add"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_margin="@dimen/button_margin"-->
-            <!--android:layout_toLeftOf="@+id/btn_edit"-->
-            <!--app:backgroundTint="#8bf7a9"-->
-            <!--app:srcCompat="@android:drawable/ic_input_add" />-->
+        <!--android:id="@+id/btn_add"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_margin="@dimen/button_margin"-->
+        <!--android:layout_toLeftOf="@+id/btn_edit"-->
+        <!--app:backgroundTint="#8bf7a9"-->
+        <!--app:srcCompat="@android:drawable/ic_input_add" />-->
 
         <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:id="@+id/btn_edit"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_marginTop="@dimen/button_margin"-->
-            <!--android:layout_toLeftOf="@+id/btn_delete"-->
-            <!--android:visibility="gone"-->
-            <!--app:backgroundTint="#fdd3b3"-->
-            <!--app:srcCompat="@android:drawable/ic_menu_edit" />-->
+        <!--android:id="@+id/btn_edit"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginTop="@dimen/button_margin"-->
+        <!--android:layout_toLeftOf="@+id/btn_delete"-->
+        <!--android:visibility="gone"-->
+        <!--app:backgroundTint="#fdd3b3"-->
+        <!--app:srcCompat="@android:drawable/ic_menu_edit" />-->
 
     </RelativeLayout>
 </ScrollView>

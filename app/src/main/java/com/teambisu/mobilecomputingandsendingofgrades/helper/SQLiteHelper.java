@@ -68,7 +68,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 Student.EMAILADDRESS + " TEXT," +
                 Student.SUBJECT_ID + " INTEGER," +
                 Student.SECTION_ID + " INTEGER," +
-                Student.INSTRUCTOR_ID + " INTEGER)");
+                Student.INSTRUCTOR_ID + " INTEGER," +
+                Student.ISGRADEREADY + " INTEGER," +
+                Student.GRADEPDFLOCATION + " TEXT)");
 
         db.execSQL("create table " + GRADES + "(" +
                 Grades.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -126,6 +128,25 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+    public boolean updateInstructor(Instructor instructor) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Instructor.FIRSTNAME, instructor.getFirstname());
+        contentValues.put(Instructor.MIDDLENAME, instructor.getMiddlename());
+        contentValues.put(Instructor.LASTNAME, instructor.getLastname());
+        contentValues.put(Instructor.EMAIL_ADDRESS, instructor.getEmailaddress());
+        contentValues.put(Instructor.USERNAME, instructor.getUsername());
+        contentValues.put(Instructor.PASSWORD, instructor.getPassword());
+
+        Log.d("test", " " + instructor.getId());
+        int result = db.update(INSTRUCTOR, contentValues, Instructor.ID + " = ?", new String[]{instructor.getId()});
+
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public void logout() {
         session = new Session(context);
@@ -138,6 +159,10 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         String FIND_USERNAME = String.format("SELECT * FROM %s WHERE %s = '%s'", INSTRUCTOR, Instructor.USERNAME, username);
 
         Cursor cursor = db.rawQuery(FIND_USERNAME, null);
+        if (cursor == null) {
+            return false;
+        }
+
         if (cursor.moveToFirst()) {
             do {
                 String pass = cursor.getString(cursor.getColumnIndex(Instructor.PASSWORD));
@@ -349,6 +374,23 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean updateStudentGrade(Student student) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Student.ISGRADEREADY, student.getIsGradeReady());
+        if (student.getGradePDFlocation() != null) {
+            contentValues.put(Student.GRADEPDFLOCATION, student.getGradePDFlocation());
+        }
+        long result = db.update(STUDENT, contentValues, Student.ID + " = ?", new String[]{Integer.toString(student.getId())});
+
+        if (result == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean updateStudent(Student student) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -397,6 +439,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 student.setEmailaddress(cursor.getString(cursor.getColumnIndex(Student.EMAILADDRESS)));
                 Log.d("test", "email address " + cursor.getString(cursor.getColumnIndex(Student.EMAILADDRESS)));
                 student.setInstructor_id(cursor.getInt(cursor.getColumnIndex(Student.INSTRUCTOR_ID)));
+                student.setIsGradeReady(cursor.getInt(cursor.getColumnIndex(Student.ISGRADEREADY)));
+                student.setGradePDFlocation(cursor.getString(cursor.getColumnIndex(Student.GRADEPDFLOCATION)));
 
             } while (cursor.moveToNext());
         }
@@ -425,6 +469,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 student.setLastname(cursor.getString(cursor.getColumnIndex(Student.LASTNAME)));
                 student.setEmailaddress(cursor.getString(cursor.getColumnIndex(Student.EMAILADDRESS)));
                 student.setInstructor_id(cursor.getInt(cursor.getColumnIndex(Student.INSTRUCTOR_ID)));
+                student.setIsGradeReady(cursor.getInt(cursor.getColumnIndex(Student.ISGRADEREADY)));
+                student.setGradePDFlocation(cursor.getString(cursor.getColumnIndex(Student.GRADEPDFLOCATION)));
                 arrayList.add(student);
             } while (cursor.moveToNext());
         }

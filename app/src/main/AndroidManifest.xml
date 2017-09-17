@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -72,6 +73,9 @@
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2" />
+        <activity
+            android:name=".UpdateInstructorActivity"
+            android:label="@string/title_activity_register_instructor" />
         <activity
             android:name=".grade.EditScoreActivity"
             android:label="@string/title_activity_edit_score"></activity>

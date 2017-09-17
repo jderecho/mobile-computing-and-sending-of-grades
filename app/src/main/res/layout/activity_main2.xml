@@ -6,6 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context="com.teambisu.mobilecomputingandsendingofgrades.Main2Activity">
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,24 +25,37 @@
         android:textSize="15dp"
         android:textStyle="bold" />
 
-    <Button android:visibility="gone" android:layout_margin="5dp"
+    <Button
         android:id="@+id/btn_add_student"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:background="@drawable/button_background"
-        android:text="Add Student" />
+        android:text="Add Student"
+        android:visibility="gone" />
 
-    <Button android:layout_margin="5dp"
+    <Button
         android:id="@+id/btn_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:background="@drawable/button_background"
         android:text="View List of Subject" />
 
-    <Button android:layout_margin="5dp"
+    <Button
+        android:id="@+id/btn_update_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/button_background"
+        android:text="Edit Instructor Info"
+        android:visibility="visible" />
+
+    <Button
         android:id="@+id/btn_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:background="@drawable/button_background"
         android:text="Logout" />
 </LinearLayout>
