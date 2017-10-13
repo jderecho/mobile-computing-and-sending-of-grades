@@ -20,6 +20,8 @@
     <string name="title_evaluation">Evaluation</string>
     <string name="title_activity_add_score">AddScoreActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
 
     <string-array name="courses">
         <item>BSCS</item>

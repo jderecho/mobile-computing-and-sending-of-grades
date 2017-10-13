@@ -3,9 +3,10 @@ package com.teambisu.mobilecomputingandsendingofgrades.model;
 public class Student {
     private int id;
     private String firstname;
-    private String middlename;
+    private String middlename = "";
     private String lastname;
     private String emailaddress;
+    private int gender;
     private int subject_id;
     private int section_id;
     private int instructor_id;
@@ -17,6 +18,7 @@ public class Student {
     public static String MIDDLENAME = "middlename";
     public static String LASTNAME = "lastname";
     public static String EMAILADDRESS = "emailaddress";
+    public static String GENDER = "gender";
     public static String SUBJECT_ID = "subject_id";
     public static String SECTION_ID = "section_id";
     public static String INSTRUCTOR_ID = "instructor_id";
@@ -104,7 +106,18 @@ public class Student {
         this.gradePDFlocation = gradePDFlocation;
     }
 
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
     public String getFullName() {
         return getFirstname() + " " + getMiddlename() + " " + getLastname();
+    }
+    public String getFName(){
+        return getLastname() + ", " + getFirstname() + " " + getMiddlename();
     }
 }

@@ -68,6 +68,31 @@
         android:textColorHint="@color/hintAccent"
         android:textCursorDrawable="@color/textAccent" />
 
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/gender_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/gender_male"
+            android:textColor="#000" />
+
+        <RadioButton
+            android:id="@+id/gender_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/gender_female"
+            android:textColor="#000" />
+    </RadioGroup>
+
     <EditText
         android:id="@+id/et_emailaddress"
         android:layout_width="match_parent"

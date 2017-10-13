@@ -66,6 +66,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 Student.MIDDLENAME + " TEXT," +
                 Student.LASTNAME + " TEXT," +
                 Student.EMAILADDRESS + " TEXT," +
+                Student.GENDER + " INTEGER," +
                 Student.SUBJECT_ID + " INTEGER," +
                 Student.SECTION_ID + " INTEGER," +
                 Student.INSTRUCTOR_ID + " INTEGER," +
@@ -361,6 +362,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         contentValues.put(Student.MIDDLENAME, student.getMiddlename());
         contentValues.put(Student.LASTNAME, student.getLastname());
         contentValues.put(Student.EMAILADDRESS, student.getEmailaddress());
+        contentValues.put(Student.GENDER, student.getGender());
         contentValues.put(Student.SUBJECT_ID, student.getSubject_id());
         contentValues.put(Student.SECTION_ID, student.getSection_id());
         contentValues.put(Student.INSTRUCTOR_ID, session.getId());
@@ -399,6 +401,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         contentValues.put(Student.MIDDLENAME, student.getMiddlename());
         contentValues.put(Student.LASTNAME, student.getLastname());
         contentValues.put(Student.EMAILADDRESS, student.getEmailaddress());
+        contentValues.put(Student.GENDER, student.getGender());
 
         long result = db.update(STUDENT, contentValues, Student.ID + " = ?", new String[]{Integer.toString(student.getId())});
 
@@ -438,6 +441,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 student.setLastname(cursor.getString(cursor.getColumnIndex(Student.LASTNAME)));
                 student.setEmailaddress(cursor.getString(cursor.getColumnIndex(Student.EMAILADDRESS)));
                 Log.d("test", "email address " + cursor.getString(cursor.getColumnIndex(Student.EMAILADDRESS)));
+                student.setGender(cursor.getInt(cursor.getColumnIndex(Student.GENDER)));
                 student.setInstructor_id(cursor.getInt(cursor.getColumnIndex(Student.INSTRUCTOR_ID)));
                 student.setIsGradeReady(cursor.getInt(cursor.getColumnIndex(Student.ISGRADEREADY)));
                 student.setGradePDFlocation(cursor.getString(cursor.getColumnIndex(Student.GRADEPDFLOCATION)));
@@ -468,6 +472,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 student.setMiddlename(cursor.getString(cursor.getColumnIndex(Student.MIDDLENAME)));
                 student.setLastname(cursor.getString(cursor.getColumnIndex(Student.LASTNAME)));
                 student.setEmailaddress(cursor.getString(cursor.getColumnIndex(Student.EMAILADDRESS)));
+                student.setGender(cursor.getInt(cursor.getColumnIndex(Student.GENDER)));
                 student.setInstructor_id(cursor.getInt(cursor.getColumnIndex(Student.INSTRUCTOR_ID)));
                 student.setIsGradeReady(cursor.getInt(cursor.getColumnIndex(Student.ISGRADEREADY)));
                 student.setGradePDFlocation(cursor.getString(cursor.getColumnIndex(Student.GRADEPDFLOCATION)));

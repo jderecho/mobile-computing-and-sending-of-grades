@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.teambisu.mobilecomputingandsendingofgrades.R;
@@ -23,6 +24,7 @@ public class AddStudentActivity extends Activity {
     EditText et_emailaddress;
     Button btn_save;
     Intent intent;
+    private int gender = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class AddStudentActivity extends Activity {
                 student.setFirstname(et_firstname.getText().toString());
                 student.setMiddlename(et_middlename.getText().toString());
                 student.setLastname(et_lastname.getText().toString());
+                student.setGender(gender);
                 student.setEmailaddress(et_emailaddress.getText().toString());
                 student.setInstructor_id(session.getId());
                 student.setSection_id(intent.getIntExtra(Student.SECTION_ID, 0));
@@ -95,6 +98,24 @@ public class AddStudentActivity extends Activity {
             mysqlite.close();
         } catch (Exception e) {
 
+        }
+    }
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.gender_male:
+                if (checked)
+                    // gender male
+                    gender = 1;
+                    break;
+            case R.id.gender_female:
+                if (checked)
+                    // gender female
+                    gender = 2;
+                    break;
         }
     }
 

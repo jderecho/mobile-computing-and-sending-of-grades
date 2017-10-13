@@ -1,13 +1,19 @@
 package com.teambisu.mobilecomputingandsendingofgrades;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -24,6 +30,8 @@ import com.teambisu.mobilecomputingandsendingofgrades.student.AddStudentActivity
 import com.teambisu.mobilecomputingandsendingofgrades.student.EditStudentActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class StudentListActivity extends Activity {
@@ -34,6 +42,7 @@ public class StudentListActivity extends Activity {
     FloatingActionButton btn_delete;
     List<String> students;
     ArrayList<Student> myStudents;
+    ArrayList<Student> sortedStudents;
     Session session;
     SQLiteHelper mysqlite;
     TextView warning;
@@ -42,8 +51,9 @@ public class StudentListActivity extends Activity {
     Subject currentSubject;
     Student currentStudent;
 
-    ArrayAdapter<String> arrayAdapter;
+    ArrayAdapter<Student> arrayAdapter;
     boolean isListSelected = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,7 @@ public class StudentListActivity extends Activity {
         // init
         Intent intent = getIntent();
         myStudents = new ArrayList<>();
+        sortedStudents = new ArrayList<>();
         students = new ArrayList<>();
         currentSection = new Section();
         currentSubject = new Subject();
@@ -81,15 +92,16 @@ public class StudentListActivity extends Activity {
         mysqlite = new SQLiteHelper(this);
 
         // list value
-        myStudents = mysqlite.getStudents(session.getId(), currentSection.getId());
-        for (Student student : myStudents) {
-            students.add(student.getFirstname() + " " + student.getMiddlename() + " " + student.getLastname());
-        }
+//        myStudents = mysqlite.getStudents(session.getId(), currentSection.getId());
+//        for (Student student : myStudents) {
+//            students.add(student.getFirstname() + " " + student.getMiddlename() + " " + student.getLastname());
+//        }
         // adapter
-        arrayAdapter = new ArrayAdapter<String>(
-                this,
-                R.layout.item_text,
-                students);
+        arrayAdapter = new StudentAdapter(this, 0, sortedStudents);
+//        new ArrayAdapter<String>(
+//                this,
+//                R.layout.item_text,
+//                students);
         lv_students.setAdapter(arrayAdapter);
 
         btn_add.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +125,7 @@ public class StudentListActivity extends Activity {
                 intent.putExtra(Student.MIDDLENAME, currentStudent.getMiddlename());
                 intent.putExtra(Student.LASTNAME, currentStudent.getLastname());
                 intent.putExtra(Student.EMAILADDRESS, currentStudent.getEmailaddress());
+                intent.putExtra(Student.GENDER, currentStudent.getGender());
                 Log.d("test", "click" + currentStudent.getEmailaddress());
                 startActivity(intent);
             }
@@ -129,12 +142,13 @@ public class StudentListActivity extends Activity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (mysqlite.deleteStudent(currentStudent)) {
-                                    students.clear();
-                                    myStudents = mysqlite.getStudents(session.getId(), currentSection.getId());
-                                    for (Student student : myStudents) {
-                                        students.add(student.getFirstname() + " " + student.getMiddlename() + " " + student.getLastname());
-                                    }
-                                    arrayAdapter.notifyDataSetChanged();
+                                    refreshList();
+//                                    students.clear();
+//                                    myStudents = mysqlite.getStudents(session.getId(), currentSection.getId());
+//                                    for (Student student : myStudents) {
+//                                        students.add(student.getFirstname() + " " + student.getMiddlename() + " " + student.getLastname());
+//                                    }
+//                                    arrayAdapter.notifyDataSetChanged();
                                     Toast.makeText(StudentListActivity.this, "Student deleted", Toast.LENGTH_LONG).show();
                                 } else {
                                     Toast.makeText(StudentListActivity.this, "Something went wrong.", Toast.LENGTH_LONG).show();
@@ -157,48 +171,87 @@ public class StudentListActivity extends Activity {
         });
     }
 
+    public void refreshList() {
+        ArrayList<Student> boy = new ArrayList<Student>();
+        ArrayList<Student> girl = new ArrayList<Student>();
+
+        sortedStudents.clear();
+//        students.clear();
+        myStudents = mysqlite.getStudents(session.getId(), currentSection.getId());
+//
+        for (Student student : myStudents) {
+//            students.add(student.getFirstname() + " " + student.getMiddlename() + " " + student.getLastname());
+            if (student.getGender() == 1) {
+                boy.add(student);
+            } else {
+                girl.add(student);
+            }
+        }
+
+        Student boys_header = new Student();
+        boys_header.setId(0);
+        boys_header.setGender(1);
+
+        Student girls_header = new Student();
+        girls_header.setId(-1);
+        girls_header.setGender(2);
+
+        sortedStudents.add(boys_header);
+        Collections.sort(boy, new FullNameComparator());
+        sortedStudents.addAll(boy);
+        sortedStudents.add(girls_header);
+        Collections.sort(girl, new FullNameComparator());
+        sortedStudents.addAll(girl);
+
+//
+//
+//        if (sortedStudents.isEmpty()) {
+//            warning.setVisibility(View.VISIBLE);
+//        } else {
+//            warning.setVisibility(View.GONE);
+//        }
+
+        arrayAdapter.notifyDataSetChanged();
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         btn_edit.setVisibility(View.GONE);
         btn_delete.setVisibility(View.GONE);
 
-        students.clear();
-        myStudents = mysqlite.getStudents(session.getId(), currentSection.getId());
-        for (Student student : myStudents) {
-            students.add(student.getFirstname() + " " + student.getMiddlename() + " " + student.getLastname());
-        }
-        if (students.isEmpty()) {
-            warning.setVisibility(View.VISIBLE);
-        } else {
-            warning.setVisibility(View.GONE);
-        }
-
-        arrayAdapter.notifyDataSetChanged();
+        refreshList();
 
         lv_students.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(StudentListActivity.this, GradesActivity.class);
-                intent.putExtra(Grades.STUDENT_ID, myStudents.get(position).getId());
-                intent.putExtra(Student.FULLNAME, myStudents.get(position).getFullName());
-                intent.putExtra("subject_name", currentSubject.getName());
-                startActivity(intent);
+                if (sortedStudents.get(position).getId() != 0 && sortedStudents.get(position).getId() != -1) {
+                    Intent intent = new Intent(StudentListActivity.this, GradesActivity.class);
+                    intent.putExtra(Grades.STUDENT_ID, sortedStudents.get(position).getId());
+                    intent.putExtra(Student.FULLNAME, sortedStudents.get(position).getFullName());
+                    intent.putExtra("subject_name", currentSubject.getName());
+                    startActivity(intent);
+                }
             }
         });
         lv_students.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                currentStudent = myStudents.get(position);
-                view.setSelected(true);
-                view.setPressed(true);
-                isListSelected = true;
-                btn_edit.setVisibility(View.VISIBLE);
-                btn_delete.setVisibility(View.VISIBLE);
-                return true;
+                if (sortedStudents.get(position).getId() != 0 && sortedStudents.get(position).getId() != -1) {
+                    currentStudent = sortedStudents.get(position);
+                    view.setSelected(true);
+                    view.setPressed(true);
+                    isListSelected = true;
+                    btn_edit.setVisibility(View.VISIBLE);
+                    btn_delete.setVisibility(View.VISIBLE);
+                    return true;
+                }
+                return false;
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {
@@ -221,6 +274,49 @@ public class StudentListActivity extends Activity {
             mysqlite.close();
         } catch (Exception e) {
 
+        }
+    }
+
+    private class StudentAdapter extends ArrayAdapter<Student> {
+        Context context = null;
+        ArrayList<Student> students;
+
+        public StudentAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<Student> objects) {
+            super(context, resource, objects);
+            this.context = context;
+            this.students = objects;
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            if (students.get(position).getId() == 0) {
+                // if section header
+                convertView = inflater.inflate(R.layout.item_header, parent, false);
+                TextView tvSectionTitle = (TextView) convertView.findViewById(R.id.tv_text);
+                tvSectionTitle.setText("Male");
+            } else if (students.get(position).getId() == -1) {
+                convertView = inflater.inflate(R.layout.item_header, parent, false);
+                TextView tvSectionTitle = (TextView) convertView.findViewById(R.id.tv_text);
+                tvSectionTitle.setText("Female");
+            } else {
+                // if item
+                convertView = inflater.inflate(R.layout.item_text, parent, false);
+                TextView tvItemTitle = (TextView) convertView.findViewById(R.id.tv_text);
+                tvItemTitle.setText(students.get(position).getFName());
+            }
+
+            return convertView;
+        }
+    }
+
+    public class FullNameComparator implements Comparator<Student> {
+        @Override
+        public int compare(Student o1, Student o2) {
+            return o1.getFName().compareTo(o2.getFName());
         }
     }
 }
